@@ -82,6 +82,16 @@ h1 {
 }
 
 /*
+ * Styles for timer
+ */
+
+.timer {
+    margin: 0;
+    padding: 0;
+    width: 7em;
+}
+
+/*
  * Styles for the Score Panel
  */
 
