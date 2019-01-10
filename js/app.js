@@ -4,38 +4,41 @@
 const cards = [...document.querySelectorAll('.card')];
 const deck = document.querySelector('.deck');
 const restartButton = document.querySelector('.restart');
+const modal = document.querySelector('.modal');
 let opened = [];
 let matched = [];
 let movesCounter = 0;
+
 
 /*
  *add timer object
  */
 const timer = {
-    mins : document.querySelector('.minutes'),
-    secs : document.querySelector('.seconds'),
+    timerHTML: document.querySelector('.timer'),
+    mins: document.querySelector('.minutes'),
+    secs: document.querySelector('.seconds'),
     
     counter : 0,
     
     countTime() {
-      timer.counter++;
-      if(timer.counter<10) {
-        timer.secs.innerHTML =`0${timer.counter}`;
-      } else if(timer.counter>=10 && timer.counter <60){
-        timer.secs.innerHTML = timer.counter;
-      } else {
-        timer.secs.innerHTML = timer.counter % 60 < 10 ? `0${timer.counter % 60}` : timer.counter % 60;
-        timer.mins.innerHTML = Math.floor(timer.counter / 60) < 10 ? `0${Math.floor(timer.counter / 60)}` : Math.floor(timer.counter / 60);
-      }
-      },
+        timer.counter++;
+        if(timer.counter<10) {
+            timer.secs.innerHTML =`0${timer.counter}`;
+        } else if(timer.counter>=10 && timer.counter <60) {
+            timer.secs.innerHTML = timer.counter;
+        } else {
+            timer.secs.innerHTML = timer.counter % 60 < 10 ? `0${timer.counter % 60}` : timer.counter % 60;
+            timer.mins.innerHTML = Math.floor(timer.counter / 60) < 10 ? `0${Math.floor(timer.counter / 60)}` : Math.floor(timer.counter / 60);
+        }
+    },
     t: '0',
     startCount() {
-         timer.t = setInterval(timer.countTime, 1000);
+        timer.t = setInterval(timer.countTime, 1000);
     },
     stopCount() {
         clearInterval(timer.t);
     }
-  };
+};
 
 
 
@@ -115,8 +118,14 @@ function incrementMoves(e) {
 
 function endGame() {
     timer.stopCount();
-    deck.innerHTML =`<h1>Congradulations!!!</h1>
-    <h2>YOU WON!!!</h2>`;
+    showModal();
+}
+
+function showModal() {
+    modal.querySelector('.mod-time').innerHTML = timer.timerHTML.innerHTML;
+    modal.querySelector('.moves').textContent += movesCounter;
+    modal.classList.add('modal-show');
+
 }
 
 function restartGame() {
