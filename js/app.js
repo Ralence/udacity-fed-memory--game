@@ -11,7 +11,7 @@ let movesCounter = 0;
 
 
 /*
- *add timer object
+ * Add timer object
  */
 const timer = {
     timerHTML: document.querySelector('.timer'),
@@ -73,6 +73,10 @@ function printCards(array) {
 }
 
 function handleClick(e) {
+    // Added conditional statement to fix double click bug
+    if(opened.includes(e.target) || e.target.nodeName === 'I') return;
+    // Prevents opening more than two cards at the same time
+    if(opened.length === 2) return;
     displayCard(e.target);
     incrementMoves(e);
     if(movesCounter === 1) timer.startCount();

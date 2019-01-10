@@ -30,7 +30,6 @@ body {
 
 h1 {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
 }
 
 /*
@@ -63,10 +62,12 @@ h1 {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    transition: transform 0.4s;
+    transform-style: preserve-3d;
 }
 
 .deck .card.open {
-    transform: rotateY(0);
+    transform: rotateY(180deg);
     background: #02b3e4;
     cursor: default;
 }
@@ -82,22 +83,14 @@ h1 {
 }
 
 /*
- * Styles for timer
- */
-
-.timer {
-    font-size: 1.5em;
-    margin: 0;
-    padding: 0;
-    width: 7em;
-}
-
-/*
  * Styles for the Score Panel
  */
 
 .score-panel {
+    color: #7410C3;
     text-align: left;
+    font-size: 18px;
+    font-weight: bold;
     width: 345px;
     margin-bottom: 10px;
 }
@@ -112,6 +105,13 @@ h1 {
 .score-panel .stars li {
     list-style: none;
     display: inline-block;
+}
+
+.timer {
+    display: inline-block;
+    margin: 0 20px;
+    padding: 0;
+    width: 7em;
 }
 
 .score-panel .restart {
