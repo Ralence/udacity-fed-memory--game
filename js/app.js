@@ -5,6 +5,11 @@ const cards = [...document.querySelectorAll('.card')];
 const deck = document.querySelector('.deck');
 const restartButton = document.querySelector('.restart');
 const modal = document.querySelector('.modal');
+const playAgainBtn = modal.querySelector('.play-again');
+const closeModal = modal.querySelector('.close-mod');
+const starContainer = document.querySelector('.stars');
+const stars = [...document.querySelectorAll('.fa-star')];
+let starCounter = 1;
 let opened = [];
 let matched = [];
 let movesCounter = 0;
@@ -80,6 +85,7 @@ function handleClick(e) {
     displayCard(e.target);
     incrementMoves(e);
     if(movesCounter === 1) timer.startCount();
+    updateStars();
 }
 
 function displayCard(card) {
@@ -127,9 +133,23 @@ function endGame() {
 
 function showModal() {
     modal.querySelector('.mod-time').innerHTML = timer.timerHTML.innerHTML;
+    modal.querySelector('.stars').innerHTML = starContainer.innerHTML;
     modal.querySelector('.moves').textContent += movesCounter;
     modal.classList.add('modal-show');
 
+}
+
+function updateStars() {
+
+    if(movesCounter < 25) {
+        return
+    } else if(movesCounter === 25) {
+        stars[stars.length - starCounter].style.color = 'gray';
+        starCounter++;
+    } else if(movesCounter % 5 === 0 && movesCounter > 25) {
+        stars[stars.length - starCounter].style.color = 'gray';
+        starCounter++;
+    } 
 }
 
 function restartGame() {
@@ -147,4 +167,8 @@ function restartGame() {
  */
 
  cards.forEach(card => card.addEventListener('click', handleClick));
- restartButton.addEventListener('click', restartGame)
+ restartButton.addEventListener('click', restartGame);
+ playAgainBtn.addEventListener('click', restartGame);
+ closeModal.addEventListener('click', function() {
+     modal.classList.remove('modal-show');
+    });
