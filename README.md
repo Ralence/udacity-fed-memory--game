@@ -27,3 +27,17 @@
 ##Style Changes
 
 * Additional HTML elements and CSS clases were added to create modal and manage transitions and animations
+
+##Dependencies
+
+* The starter code for this project was downloaded form
+  The Memory Game project repository on GitHub:
+  https://github.com/udacity/fend-project-memory-game
+
+  * The starte code contains links to:
+    * Font-awsome:   
+      https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css
+    * Google fonts: 
+      https://fonts.googleapis.com/css?family=Coda
+
+* Other than this everything was coded from scratch and has no external dependencies
