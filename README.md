@@ -1,20 +1,29 @@
 # Memory Game Project
 
-## Table of Contents
+## Information 
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* Project .........Memory Game
+* Purpose .........Udacity Front-End Nanodegree Program
+                   Project 2
+* Creator .........Ranko Ostojic
+* Created .........January, 2019
 
-## Instructions
+## JS Code Info and Structure
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+* Code was written in pure JS
+* The first section of the code contains all the global variables 
+* The second section contains the function declarations
+* The final section is forevent listeners
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Basic Info About The Game Functionality
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+* The cards will shuffle onload
+* The game will start after the first click
+* The toimer will start after the first click and the move counter will be initiated
+* The game will end after all cards have been matched
+* At the end a modal will be displayed
+* Modal contains game moves, game time and the score between five and zero stars
 
-## Contributing
+##Style Changes
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+* Additional HTML elements and CSS clases were added to create modal and manage transitions and animations

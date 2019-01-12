@@ -1,23 +1,22 @@
 /*
  * Create a list that holds all of your cards
+ * Create all the global variables needed for the code to work
  */
-const cards = [...document.querySelectorAll('.card')];
-const deck = document.querySelector('.deck');
-const restartButton = document.querySelector('.restart');
-const modal = document.querySelector('.modal');
-const playAgainBtn = modal.querySelector('.play-again');
-const closeModal = modal.querySelector('.close-mod');
-const starContainer = document.querySelector('.stars');
-const stars = [...document.querySelectorAll('.fa-star')];
-let starCounter = 1;
-let opened = [];
-let matched = [];
-let movesCounter = 0;
+const cards = [...document.querySelectorAll('.card')];     // Selacts all the cards and spread them to the array
+const deck = document.querySelector('.deck');              // Slect the deck
+const restartButton = document.querySelector('.restart');  // Select the restart button
+const modal = document.querySelector('.modal');            // Selec the modal to show after winning
+const playAgainBtn = modal.querySelector('.play-again');   // Select play again btn from the modal
+const closeModal = modal.querySelector('.close-mod');      // Close modal btn
+const starContainer = document.querySelector('.stars');    // Star container used to copy the stars HTML and style to modal
+const stars = [...document.querySelectorAll('.fa-star')];  // Star elements used for updating the score
+let starCounter = 1;   // Counts stars to be deleted from the score
+let opened = [];       // Stores active cards
+let matched = [];      // Stores matched cards
+let movesCounter = 0;  // Stores number of moves made in the game
 
-
-/*
- * Add timer object
- */
+// Add timer object with all the related functionality
+ 
 const timer = {
     timerHTML: document.querySelector('.timer'),
     mins: document.querySelector('.minutes'),
@@ -27,9 +26,9 @@ const timer = {
     
     countTime() {
         timer.counter++;
-        if(timer.counter<10) {
+        if (timer.counter<10) {
             timer.secs.innerHTML =`0${timer.counter}`;
-        } else if(timer.counter>=10 && timer.counter <60) {
+        } else if (timer.counter>=10 && timer.counter <60) {
             timer.secs.innerHTML = timer.counter;
         } else {
             timer.secs.innerHTML = timer.counter % 60 < 10 ? `0${timer.counter % 60}` : timer.counter % 60;
@@ -45,19 +44,13 @@ const timer = {
     }
 };
 
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-shuffle(cards);
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 
+/*
+ * The shuffle function will 
+ *   - shuffle the cards array 
+ *   - call on the printCards function tu update the position of the cards
+ */
 
 function shuffle(array) {
     let currentIndex = array.length, randomIndex;
@@ -71,20 +64,31 @@ function shuffle(array) {
     printCards(array);
 }
 
+// calls shuffle function to update the page content
+shuffle(cards);
+
 function printCards(array) {
     deck.innerHTML = "";
 	
 	array.map(item => deck.appendChild(item));
 }
 
+/*
+ * handleClick function starts the game implements the logic and calls the functions
+ *   - displayCard
+ *   - incrementMoves
+ *   - timer.startCount to start the timer
+ *   - updateStars to update the game score
+ */
+
 function handleClick(e) {
     // Added conditional statement to fix double click bug
-    if(opened.includes(e.target) || e.target.nodeName === 'I') return;
+    if (opened.includes(e.target) || e.target.nodeName === 'I') return;
     // Prevents opening more than two cards at the same time
-    if(opened.length === 2) return;
+    if (opened.length === 2) return;
     displayCard(e.target);
     incrementMoves(e);
-    if(movesCounter === 1) timer.startCount();
+    if (movesCounter === 1) timer.startCount();
     updateStars();
 }
 
@@ -92,16 +96,18 @@ function displayCard(card) {
     card.classList.add('open', 'show');
     opened.push(card);
     
-    if(opened.length === 2) {
+    if (opened.length === 2) {
         handleMatch();
     }
 }
 
 function handleMatch() {
-    if(opened[0].innerHTML === opened[1].innerHTML) {
-        setTimeout(goodMatch, 200);
+    if (opened[0].innerHTML === opened[1].innerHTML) {
+        opened.forEach(card => card.classList.add('good-match'));
+        setTimeout(goodMatch, 800);
     } else {
-        setTimeout(badMatch, 1000);
+        opened.forEach(card => card.classList.add('bad-match'));
+        setTimeout(badMatch, 800);
     }
 }
 
@@ -111,7 +117,7 @@ function goodMatch() {
     matched.push(opened);
     opened = [];
 
-    if(matched.length === 8) {
+    if (matched.length === 8) {
         endGame();
     }
 }
@@ -136,18 +142,16 @@ function showModal() {
     modal.querySelector('.stars').innerHTML = starContainer.innerHTML;
     modal.querySelector('.moves').textContent += movesCounter;
     modal.classList.add('modal-show');
-
 }
 
 function updateStars() {
-
-    if(movesCounter < 25) {
-        return
-    } else if(movesCounter === 25) {
-        stars[stars.length - starCounter].style.color = 'gray';
+    if (movesCounter < 25) {
+        return;
+    } else if (movesCounter === 25) {
+        stars[stars.length - starCounter].style.color = '#80808054';
         starCounter++;
-    } else if(movesCounter % 5 === 0 && movesCounter > 25) {
-        stars[stars.length - starCounter].style.color = 'gray';
+    } else if (movesCounter % 5 === 0 && movesCounter > 25 && movesCounter < 50) {
+        stars[stars.length - starCounter].style.color = '#80808054';
         starCounter++;
     } 
 }
@@ -155,20 +159,13 @@ function updateStars() {
 function restartGame() {
     document.location.reload(true);
 }
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
- cards.forEach(card => card.addEventListener('click', handleClick));
- restartButton.addEventListener('click', restartGame);
- playAgainBtn.addEventListener('click', restartGame);
- closeModal.addEventListener('click', function() {
-     modal.classList.remove('modal-show');
+// Event listeners for the cards and the restart button
+cards.forEach(card => card.addEventListener('click', handleClick));
+restartButton.addEventListener('click', restartGame);
+
+// Event listeners for modal
+playAgainBtn.addEventListener('click', restartGame);
+closeModal.addEventListener('click', function() {
+    modal.classList.remove('modal-show');
     });
